@@ -219,3 +219,4 @@ cython_debug/
 # Microsoft Office Outlook 檔案，如電子郵件、日曆、聯絡人等
 *.pst
 *.ost
+.gitidentity

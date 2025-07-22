@@ -1,5 +1,0 @@
-[identity]
-user_name = Miles
-user_email = Miles@Miles.com
-ssh_key = id_rsa_accountB
-remote = git@github.com:qweszxc7410/script-lab.git
