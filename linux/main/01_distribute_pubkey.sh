@@ -1,9 +1,7 @@
 #!/bin/bash
-# distribute_pubkey.sh
-# 功能：請補上腳本的功能說明
-# 用途：請補上腳本的實際用途
-# distribute_pubkey.sh
+# 01_distribute_pubkey.sh
 # 功能：將本機的 SSH 公鑰傳送到所有主機（建立免密碼登入）
+# 用途：請補上腳本的實際用途
 
 PUBKEY="$HOME/.ssh/id_rsa.pub"
 
@@ -13,7 +11,8 @@ if [ ! -f "$PUBKEY" ]; then
   echo "    ssh-keygen -t rsa -b 4096 -N \"\" -f ~/.ssh/id_rsa"
   exit 1
 fi
-
+# ~/.ssh/id_rsa        ← 私鑰（不要外洩）
+# ~/.ssh/id_rsa.pub    ← 公鑰（可發送給別人）
 # 逐台發送
 while read ip; do
   echo "📤 傳送公鑰給 $ip ..."
