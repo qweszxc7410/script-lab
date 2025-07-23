@@ -1,5 +1,12 @@
 # 📜 腳本總覽（自動產生）
 
+## start_all_containers.sh
+> script-lab\container\start_all_containers.sh
+> start_all_containers.sh
+> 功能：請補上腳本的功能說明
+> 用途：請補上腳本的實際用途
+> bash
+
 ## reset_and_force_push.sh
 > script-lab\git\reset_and_force_push.sh
 > reset_and_force_push.sh
@@ -33,6 +40,13 @@
 > reset_and_force_push.sh
 > 功能：將專案重設為指定 commit 並強制推送至 GitHub（清除歷史）
 > 用途：回復特定狀態並同步 GitHub 倉庫
+> bash
+
+## backup.sh
+> script-lab\linux\backup.sh
+> backup.sh
+> 功能：請補上腳本的功能說明
+> 用途：請補上腳本的實際用途
 > bash
 
 ## grep_python.sh
