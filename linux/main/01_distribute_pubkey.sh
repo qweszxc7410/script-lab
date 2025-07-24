@@ -26,9 +26,11 @@ fi
 while read ip; do
   echo "📤 傳送公鑰給 $ip ..."
   
-  ssh ubuntu@$ip "mkdir -p ~/.ssh && chmod 700 ~/.ssh"
-  cat "$PUBKEY" | ssh ubuntu@$ip "cat >> ~/.ssh/authorized_keys"
-  ssh ubuntu@$ip "chmod 600 ~/.ssh/authorized_keys"
+  SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+
+  ssh $SSH_OPTS ubuntu@$ip "mkdir -p ~/.ssh && chmod 700 ~/.ssh"
+  cat "$PUBKEY" | ssh $SSH_OPTS ubuntu@$ip "cat >> ~/.ssh/authorized_keys"
+  ssh $SSH_OPTS ubuntu@$ip "chmod 600 ~/.ssh/authorized_keys"
   
   echo "✅ 完成 $ip"
 done < "$HOME/hostlist.txt"
