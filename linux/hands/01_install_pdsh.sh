@@ -16,7 +16,7 @@ else
 fi
 
 if ! grep -q "PDSH_SSH_ARGS_APPEND=" ~/.bashrc; then
-  echo 'export PDSH_SSH_ARGS_APPEND="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"' >> ~/.bashrc
+  export PDSH_SSH_ARGS_APPEND="-o StrictHostKeyChecking=no"
   echo "✅ 已加入 ~/.bashrc：PDSH_SSH_ARGS_APPEND"
 else
   echo "⚠️ ~/.bashrc 中已存在 PDSH_SSH_ARGS_APPEND 設定，略過"

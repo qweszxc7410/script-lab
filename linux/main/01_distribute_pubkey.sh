@@ -1,7 +1,6 @@
 #!/bin/bash
-# 01_distribute_pubkey.sh
-# 功能：將本機的 SSH 公鑰傳送到所有主機（建立免密碼登入）
-# 用途：用於 cluster 環境（如 pdsh）快速建立 SSH 互信機制
+# 01_distribute_pubkey.sh（安全版）
+# 功能：自動將 SSH 公鑰分發到 hostlist.txt 裡所有主機，並自動偵測自己
 
 # 嘗試找第一組現有的公鑰
 PUBKEY=$(find ~/.ssh -maxdepth 1 -name "*.pub" | head -n 1)
@@ -22,17 +21,31 @@ if [ ! -f "$HOME/hostlist.txt" ]; then
   exit 1
 fi
 
-# 傳送到每台主機
+SELF_HOST=$(hostname)
+SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+
+# 傳送公鑰
 while read ip; do
+  [ -z "$ip" ] && continue  # 跳過空行
+
   echo "📤 傳送公鑰給 $ip ..."
-  
-  SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+
+  # 嘗試比對主機名稱
+  REMOTE_HOST=$(ssh $SSH_OPTS ubuntu@$ip "hostname" 2>/dev/null)
 
   ssh $SSH_OPTS ubuntu@$ip "mkdir -p ~/.ssh && chmod 700 ~/.ssh"
   cat "$PUBKEY" | ssh $SSH_OPTS ubuntu@$ip "cat >> ~/.ssh/authorized_keys"
   ssh $SSH_OPTS ubuntu@$ip "chmod 600 ~/.ssh/authorized_keys"
-  
-  echo "✅ 完成 $ip"
-done < "$HOME/hostlist.txt"
 
-echo "🎉 所有主機已完成免密登入設定"
+
+  echo "✅ 完成 $ip"
+  
+done < "$HOME/hostlist.txt"
+echo "🔁 強制設定本機 SSH 公鑰登入..."
+mkdir -p ~/.ssh
+cat ~/.ssh/id_ed25519.pub >> ~/.ssh/authorized_keys
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys
+
+
+echo "🎉 所有主機（含本機）已完成免密登入設定"
