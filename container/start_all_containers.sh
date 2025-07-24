@@ -1,4 +1,7 @@
 #!/bin/bash
+# start_all_containers.sh
+# 功能：請補上腳本的功能說明
+# 用途：請補上腳本的實際用途
 # 啟動所有指定的 container
 # cat /etc/systemd/system/docker-container-start.service
 containers=(
