@@ -3,5 +3,6 @@
 # 用途：請補上腳本的實際用途
 sudo apt update
 sudo apt install -y git
+rm ~/.ssh/authorized_keys # 清空公鑰
 
 git clone https://github.com/qweszxc7410/script-lab.git
