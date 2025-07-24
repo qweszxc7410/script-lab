@@ -22,7 +22,7 @@ if [ ! -f "$HOME/hostlist.txt" ]; then
 fi
 
 SELF_HOST=$(hostname)
-SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+SSH_OPTS="-o StrictHostKeyChecking=no"
 
 # 傳送公鑰
 while read ip; do
@@ -34,16 +34,20 @@ while read ip; do
   REMOTE_HOST=$(ssh $SSH_OPTS ubuntu@$ip "hostname" 2>/dev/null)
 
   ssh $SSH_OPTS ubuntu@$ip "mkdir -p ~/.ssh && chmod 700 ~/.ssh"
-  cat "$PUBKEY" | ssh $SSH_OPTS ubuntu@$ip "cat >> ~/.ssh/authorized_keys"
+  KEY_CONTENT=$(cat "$PUBKEY")
+  ssh $SSH_OPTS ubuntu@$ip "grep -qxF '$KEY_CONTENT' ~/.ssh/authorized_keys || echo '$KEY_CONTENT' >> ~/.ssh/authorized_keys"
+
   ssh $SSH_OPTS ubuntu@$ip "chmod 600 ~/.ssh/authorized_keys"
 
 
   echo "✅ 完成 $ip"
-  
+
 done < "$HOME/hostlist.txt"
+
 echo "🔁 強制設定本機 SSH 公鑰登入..."
 mkdir -p ~/.ssh
-cat ~/.ssh/id_ed25519.pub >> ~/.ssh/authorized_keys
+KEY_CONTENT=$(cat "$PUBKEY")
+grep -qxF "$KEY_CONTENT" ~/.ssh/authorized_keys || echo "$KEY_CONTENT" >> ~/.ssh/authorized_keys
 chmod 700 ~/.ssh
 chmod 600 ~/.ssh/authorized_keys
 
