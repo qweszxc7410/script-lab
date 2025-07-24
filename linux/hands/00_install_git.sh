@@ -6,3 +6,5 @@ sudo apt install -y git
 rm ~/.ssh/authorized_keys # 清空公鑰
 
 git clone https://github.com/qweszxc7410/script-lab.git
+chmod -R +x script-lab/
+cd script-lab/linux/hands/ # 然後執行01_install_pdsh_ntp.sh
