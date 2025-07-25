@@ -6,7 +6,8 @@
 # cat ~/.ssh/authorized_keys 可以在不同主機驗證
 
 set -euo pipefail
-
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
 echo "🔐 [STEP 1] 尋找現有公鑰..."
 PUBKEY=$(find ~/.ssh -maxdepth 1 -name "*.pub" | head -n 1)
 
