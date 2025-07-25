@@ -16,12 +16,11 @@ pdsh -w "$MASTER_IP" "curl -sfL https://get.k3s.io | sh -"
 for ip in "${AGENT_IPS[@]}"; do
   echo "📦 在 $ip 安裝 K3s Agent..."
 
-  # 🧱 補齊 iptables 套件（如未安裝會自動裝）
-  pdsh -w "$ip" "sudo apt update && sudo apt install -y iptables iptables-persistent"
+  # 🧱 安裝 iptables 套件（非互動式防卡住）
+  pdsh -w "$ip" "sudo DEBIAN_FRONTEND=noninteractive apt-get update -y && sudo DEBIAN_FRONTEND=noninteractive apt-get install -y iptables iptables-persistent"
 
-  # 🚀 安裝 K3s Agent 並連接主節點
-  pdsh -w "$ip" "K3S_URL=https://$MASTER_IP:6443 K3S_TOKEN=$NODE_TOKEN curl -sfL https://get.k3s.io | sh -s - agent"
+  # 🚀 安裝 K3s Agent 並加入主節點
+  pdsh -w "$ip" "env K3S_URL=https://$MASTER_IP:6443 K3S_TOKEN=$NODE_TOKEN curl -sfL https://get.k3s.io | sh -s - agent"
 done
 
-
-# pdsh -w 192.168.1.105 "sudo kubectl get nodes -o wide" 測試
+echo "🎉 K3s 叢集安裝流程已執行完畢"

@@ -3,6 +3,10 @@
 # 功能：將 main 主機的 SSH 金鑰與 hostlist.txt 同步到所有節點，並建立雙向免密登入
 # 用途：用於初次部署或重設多台主機的 SSH 信任設定，確保所有節點可互相登入以利 Cluster 或批次管理
 
+
+# ######
+#######
+# . ./03_sync_ssh_to_all.sh
 HOSTLIST="$HOME/hostlist.txt"
 
 # ========== 前置檢查 ==========
@@ -43,12 +47,22 @@ for ip in "${ip_list[@]}"; do
   # 傳送 hostlist.txt
   scp -q "$HOSTLIST" ubuntu@"$ip":~/
 
-  # 設定檔案權限（不假設檔名）
+  # 設定檔案權限 + 安裝 pdsh + 設定環境變數
   ssh -o StrictHostKeyChecking=no ubuntu@"$ip" "
+
     chmod 700 ~/.ssh
     chmod 600 ~/.ssh/*.pub ~/.ssh/id_* 2>/dev/null || true
     chmod 600 ~/.ssh/authorized_keys 2>/dev/null || true
+
+    if ! grep -q '^PDSH_RCMD_TYPE=ssh' /etc/environment 2>/dev/null; then
+      echo 'PDSH_RCMD_TYPE=ssh' | sudo tee -a /etc/environment > /dev/null
+      echo '🔧 已將 PDSH_RCMD_TYPE=ssh 寫入 /etc/environment（永久生效）'
+    fi
+
+    . /etc/environment
+    echo "✅ 已立即啟用 PDSH_RCMD_TYPE=ssh（當前 shell）"
   "
+
 
   # 建立互信（讓這台 ssh 到其他所有節點）
   echo "🚀 $ip 正在建立互信..."
@@ -64,3 +78,5 @@ for ip in "${ip_list[@]}"; do
 done
 
 echo "🎉 所有主機已完成 SSH 金鑰同步與雙向互信設定"
+
+# PDSH_RCMD_TYPE=ssh pdsh -w ^$HOME/hostlist.txt "hostname"
