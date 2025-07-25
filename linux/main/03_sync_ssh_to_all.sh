@@ -1,6 +1,7 @@
 #!/bin/bash
-# sync_ssh_to_all.sh（強化版）
+# 03_sync_ssh_to_all.sh（強化版）
 # 功能：將 main 主機的 SSH 金鑰與 hostlist.txt 同步到所有節點，並建立雙向免密登入
+# 用途：用於初次部署或重設多台主機的 SSH 信任設定，確保所有節點可互相登入以利 Cluster 或批次管理
 
 HOSTLIST="$HOME/hostlist.txt"
 
@@ -29,35 +30,37 @@ fi
 
 echo "📦 開始將 ~/.ssh 和 hostlist.txt 同步到所有節點..."
 
-# ========== 同步給所有主機 ==========
-while read ip; do
-  [ -z "$ip" ] && continue
+# 讀入所有主機 IP 為陣列
+mapfile -t ip_list < <(grep -v '^\s*$' "$HOSTLIST")
 
+# ========== 同步給所有主機 ==========
+for ip in "${ip_list[@]}"; do
   echo "🔁 同步到 $ip ..."
 
   # 同步 .ssh 資料夾
-  rsync -avz ~/.ssh/ ubuntu@$ip:~/.ssh --rsync-path="mkdir -p ~/.ssh && rsync"
+  rsync -avz ~/.ssh/ ubuntu@"$ip":~/.ssh --rsync-path="mkdir -p ~/.ssh && rsync"
 
   # 傳送 hostlist.txt
-  scp -q ~/hostlist.txt ubuntu@$ip:~/
+  scp -q "$HOSTLIST" ubuntu@"$ip":~/
 
   # 設定檔案權限（不假設檔名）
-  ssh -o StrictHostKeyChecking=no ubuntu@$ip "
+  ssh -o StrictHostKeyChecking=no ubuntu@"$ip" "
     chmod 700 ~/.ssh
     chmod 600 ~/.ssh/*.pub ~/.ssh/id_* 2>/dev/null || true
     chmod 600 ~/.ssh/authorized_keys 2>/dev/null || true
   "
 
-  # 執行 ssh 到所有主機，建立 known_hosts
+  # 建立互信（讓這台 ssh 到其他所有節點）
   echo "🚀 $ip 正在建立互信..."
-  ssh -o StrictHostKeyChecking=no ubuntu@$ip "
+  ssh -o StrictHostKeyChecking=no ubuntu@"$ip" "
     KEY=\$(find ~/.ssh -maxdepth 1 -name 'id_*' ! -name '*.pub' | head -n 1)
-    for t in \$(cat ~/hostlist.txt); do
+    mapfile -t nodes < ~/hostlist.txt
+    for t in \"\${nodes[@]}\"; do
       ssh -i \$KEY -o StrictHostKeyChecking=no ubuntu@\$t 'echo ✅ \$HOSTNAME ➜ '\$t''
     done
   "
 
   echo "✅ $ip 完成設定"
-done < "$HOSTLIST"
+done
 
 echo "🎉 所有主機已完成 SSH 金鑰同步與雙向互信設定"

@@ -4,7 +4,7 @@
 # 用途：用於設定 cluster 環境下的 pdsh，使其能透過 SSH 控制多台主機（包含自己）
 
 # 建立 pdsh 主機清單（hostlist.txt），包含所有節點 IP（可自行修改順序）
-echo -e "192.168.1.106\n192.168.1.104" > ~/hostlist.txt
+echo -e "192.168.1.106\n192.168.1.104\n" > ~/hostlist.txt
 echo "✅ 已建立 ~/hostlist.txt"
 
 # 加入 pdsh 設定到 ~/.bashrc（避免重複寫入）
