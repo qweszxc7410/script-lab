@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # truncate_logs.sh
 # 功能：保留指定 log 的最後 100 行並修正權限
 # 用途：避免 log 過大並維持檔案安全權限設定

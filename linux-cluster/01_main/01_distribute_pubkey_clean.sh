@@ -47,7 +47,8 @@ for ip in "${HOSTS[@]}"; do
   echo -e "\n📤 傳送公鑰給 $ip（請輸入密碼）..."
 
   TEMPFILE="temp_key.pub"
-  if ! scp -o StrictHostKeyChecking=no -o ConnectTimeout=5 -o BatchMode=no "$PUBKEY" ubuntu@"$ip":~/"$TEMPFILE"; then
+  if rsync -av -e "ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 -o BatchMode=no" "$PUBKEY" ubuntu@"$ip":~/"$TEMPFILE"; then
+
     echo "❌ [$ip] scp 傳送失敗，跳過"
     continue
   fi

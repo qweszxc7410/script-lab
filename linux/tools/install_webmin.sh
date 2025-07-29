@@ -1,5 +1,7 @@
 #!/bin/bash
-
+# install_webmin.sh
+# 功能：自動安裝 Webmin 並新增對應套件源與 GPG 金鑰
+# 用途：快速部署 Webmin 管理介面並自動開啟 port 10000（若啟用 UFW）
 set -e
 
 echo "📦 正在更新套件列表..."

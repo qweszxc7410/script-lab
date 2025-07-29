@@ -1,4 +1,8 @@
 #!/bin/bash
+# swap_setup.sh
+# 功能：移除舊的 swap，建立指定大小的新 swap 檔案並啟用
+# 用途：用於記憶體不足時擴充虛擬記憶體（適合在 Raspberry Pi、低記憶體系統）
+
 SWAPFILE="/swapfile"
 SWAP_SIZE_GB=16
 

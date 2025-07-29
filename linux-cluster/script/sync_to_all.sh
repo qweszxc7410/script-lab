@@ -1,5 +1,5 @@
 #!/bin/bash
-# scp_to_all.sh
+# sync_to_all.sh
 # 功能：將指定檔案 scp 到 hostlist.txt 中所有機器（自動略過本機 IP）
 # 用途：快速同步檔案到 cluster 節點（含免密登入）
 
@@ -39,7 +39,7 @@ while IFS= read -r HOST; do
     continue
   fi
   echo "➡️  傳送到 $HOST:$DEST_PATH"
-  scp "$FILE_TO_SEND" "$USER@$HOST:$DEST_PATH"
+  rsync -avL "$FILE_TO_SEND" "$USER@$HOST:$DEST_PATH"
 done < "$HOSTLIST"
 
 echo "🎉 所有遠端主機傳送完成"
