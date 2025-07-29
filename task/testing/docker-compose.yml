@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  prefect-worker:
+    image: prefecthq/prefect:2.20-python3.11
+    container_name: prefect_worker
+    volumes:
+      - ./testing:/app
+    environment:
+      - PREFECT_API_URL=http://prefect-server:4200/api
+    command: >
+      prefect worker start
+      --pool default-agent-pool
+      --name pi5-main
+
+  prefect-server:
+    image: prefecthq/prefect:2.20-python3.11
+    container_name: prefect_server
+    ports:
+      - "4200:4200"
+    command: prefect server start
