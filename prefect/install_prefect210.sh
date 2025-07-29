@@ -22,4 +22,4 @@ echo "🎉 Prefect 2.10.0 安裝完成！已啟用虛擬環境"
 echo "👉 你現在可以執行：prefect version / prefect server start / prefect agent start"
 
 # 保持在虛擬環境中
-$SHELL
+# $SHELL
