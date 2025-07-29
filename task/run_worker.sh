@@ -9,7 +9,7 @@ source ~/.venv-prefect/bin/activate
 pip install "prefect==2.10.13" "pydantic<2.0" "anyio==3.6.2" "griffe==0.36.4"
 
 
-PREFECT_API_URL=http://192.168.1.135:4200/api prefect worker start --pool pi-workers --work-queue default
+PREFECT_API_URL=http://192.168.1.135:4200/api prefect worker start --pool pi-workers --work-queue default --name pi5-main
 
 
 
@@ -26,6 +26,19 @@ prefect deployment build flow_trigger.py:main \
   --pool my-process-pool \
   --work-queue default \
   --apply
+
+
+
+
+docker run -d \
+  --name prefect_worker \
+  --restart unless-stopped \
+  -e PREFECT_API_URL="http://192.168.1.135:4200/api" \
+  prefecthq/prefect:2.20-python3.11 \
+  prefect worker start --pool default-agent-pool --name pi5-main
+
+# To view logs of the worker
+docker logs -f prefect_worker
 
 
 from prefect import flow, task
