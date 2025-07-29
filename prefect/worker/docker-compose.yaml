@@ -1,0 +1,20 @@
+# docker-compose.yml
+version: "3.8"
+
+services:
+  prefect_worker3:
+    container_name: prefect_worker3
+    image: prefecthq/prefect:2.20-python3.11
+    volumes:
+      - /opt/AI_Docker/testing:/app
+    environment:
+      - PREFECT_API_URL=http://192.168.1.135:4200/api
+    command: >
+      prefect worker start --pool default-agent-pool --name pi5-main3
+    restart: unless-stopped
+    networks:
+      - prefect-net
+
+networks:
+  prefect-net:
+    driver: bridge
