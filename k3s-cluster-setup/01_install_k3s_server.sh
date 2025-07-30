@@ -1,4 +1,7 @@
 #!/bin/bash
+# 01_install_k3s_server.sh
+# 功能：請補上腳本的功能說明
+# 用途：請補上腳本的實際用途
 # 01_install_k3s_server_and_get_token.sh
 # 功能：安裝主節點 K3s Server 並取得 Token
 

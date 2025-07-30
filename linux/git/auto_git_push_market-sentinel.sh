@@ -1,4 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# auto_git_push.sh
+# 功能：自動偵測 Git 專案是否有變更並執行 add / commit / push 操作
+# 用途：用於自動備份專案、記錄更新、結合排程定時同步 Git 儲存庫
 
 # 設定變數
 PROJECT_DIR="/opt/AI_Docker/market-sentinel"

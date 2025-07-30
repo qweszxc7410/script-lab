@@ -1,5 +1,8 @@
 #!/bin/bash
 # reset_to_agent.sh
+# 功能：請補上腳本的功能說明
+# 用途：請補上腳本的實際用途
+# reset_to_agent.sh
 # 功能：卸載現有 K3s 並重新安裝為 Agent
 
 source ./env.conf

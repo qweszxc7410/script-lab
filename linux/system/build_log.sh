@@ -1,3 +1,8 @@
+#!/usr/bin/env bash
+# build_log.sh
+# 功能：建立各容器與備份相關服務所需的 log 檔案，並設定通用寫入權限
+# 用途：避免 log 檔案缺失導致服務寫入失敗，適用於初始化或容器部署前執行
+
 sudo touch /var/log/taifex_block_trade.log
 sudo chmod 666 /var/log/taifex_block_trade.log
 

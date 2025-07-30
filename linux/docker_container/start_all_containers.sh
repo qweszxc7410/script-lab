@@ -1,6 +1,10 @@
-#!/bin/bash
-# 啟動所有指定的 container
+#!/usr/bin/env bash
+# start_all_containers.sh
+# 功能：啟動指定清單中的所有 Docker container
+# 用途：用於系統開機或部署後一鍵啟動所有服務容器
+
 # cat /etc/systemd/system/docker-container-start.service
+
 containers=(
   "funddj_news"
   "taifex_block_trade"

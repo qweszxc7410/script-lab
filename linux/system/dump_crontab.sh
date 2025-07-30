@@ -1,4 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# cron_summary_export.sh
+# 功能：整理並匯出目前 crontab 中的任務排程時間與來源（腳本或容器）
+# 用途：用於排程總覽與每日排程可視化，例如建構排程表或稽核工具
 
 output="/opt/AI_Docker/scripts/cron_summary.csv"
 temp="/opt/AI_Docker/scripts/cron_temp.csv"

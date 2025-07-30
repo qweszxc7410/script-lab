@@ -1,3 +1,10 @@
+"""
+trigger_container_script.py
+
+功能：透過 Prefect flow 執行 container 中的 bash 腳本  
+用途：用於觸發容器內 `/app/run.sh` 的自動化任務流程
+"""
+
 from prefect import flow, task
 import subprocess
 # pip install prefect==2.20.18
