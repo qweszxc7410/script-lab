@@ -1,0 +1,64 @@
+services:
+  minio1:
+    image: quay.io/minio/minio
+    container_name: minio1
+    volumes:
+      - /mnt/data1:/data
+    ports:
+      - "9001:9000"
+      - "9005:9001"
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: admin123
+    command: server --console-address ":9001" http://minio{1...4}/data
+    networks:
+      - minio-net
+
+  minio2:
+    image: quay.io/minio/minio
+    container_name: minio2
+    volumes:
+      - /mnt/data2:/data
+    ports:
+      - "9002:9000"
+      - "9006:9001"
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: admin123
+    command: server --console-address ":9001" http://minio{1...4}/data
+    networks:
+      - minio-net
+
+  minio3:
+    image: quay.io/minio/minio
+    container_name: minio3
+    volumes:
+      - /mnt/data3:/data
+    ports:
+      - "9003:9000"
+      - "9007:9001"
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: admin123
+    command: server --console-address ":9001" http://minio{1...4}/data
+    networks:
+      - minio-net
+
+  minio4:
+    image: quay.io/minio/minio
+    container_name: minio4
+    volumes:
+      - /mnt/data4:/data
+    ports:
+      - "9004:9000"
+      - "9008:9001"
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: admin123
+    command: server --console-address ":9001" http://minio{1...4}/data
+    networks:
+      - minio-net
+
+networks:
+  minio-net:
+    driver: bridge
