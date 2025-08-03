@@ -1,4 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# backup_container.sh
+# 功能：將指定的 Docker container 打包成 image 並匯出為 .tar 檔
+# 用途：用於備份容器狀態與映像，方便搬移或日後還原
 
 # === 備份 Docker Container 成 Image 並導出為 .tar 檔案 ===
 # 使用方式：

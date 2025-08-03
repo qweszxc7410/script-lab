@@ -1,3 +1,6 @@
+# OK.sh
+# 功能：請補上腳本的功能說明
+# 用途：請補上腳本的實際用途
 wget https://github.com/k3s-io/k3s/releases/download/v1.32.6%2Bk3s1/k3s-arm64 -O k3s
 chmod +x k3s
 sudo ./k3s server --disable traefik

@@ -1,8 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# setup_prefect_container.sh
+# 功能：自動建立 Prefect Server + Worker 的容器架構與執行環境
+# 用途：用於快速部署 Prefect 2.x 流程管理伺服器與本地處理池，支援網路整合
 
 set -e
 
-BASE_DIR="/opt/opt/AI_Docker/prefect"
+BASE_DIR="/opt/AI_Docker/prefect"
 APP_DIR="$BASE_DIR/app"
 
 echo "📁 建立 Prefect 專案目錄..."

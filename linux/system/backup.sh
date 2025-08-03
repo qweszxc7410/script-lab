@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # backup.sh
-# 功能：請補上腳本的功能說明
-# 用途：請補上腳本的實際用途
-#!/bin/bash
+# 功能：將指定資料夾備份至 SSD 與 USB，同步處理掛載、log 截斷與容器重啟
+# 用途：用於每日備份重要資料並重啟容器，確保資料安全與服務持續運行
+
 
 # === 設定區 ===
 LOG_PATH="/backup/backup.log"
