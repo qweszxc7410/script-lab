@@ -1,0 +1,1 @@
+ scp -r ubuntu@192.168.1.106:/home/ubuntu/* C:\Users\user\Desktop\pi
