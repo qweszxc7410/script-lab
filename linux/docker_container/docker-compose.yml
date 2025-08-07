@@ -1,0 +1,18 @@
+services:
+  testing:
+    container_name: testing
+    image: python:3.11-slim
+    volumes:
+      - /home/ubuntu/testing:/app
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=Asia/Taipei                     # <--- 可選，加上更保險
+    command: >
+      bash -c "
+        echo 'parse_git_branch() { git branch 2>/dev/null | grep \"*\" | sed \"s/* //\"; }' >> ~/.bashrc && 
+        echo 'export PS1=\"\\u@\\h \\w \\[\\033[36m\\]git:(\\\$(parse_git_branch))\\[\\033[00m\\] \\$ \"' >> ~/.bashrc && 
+        exec bash
+      "
+    working_dir: /app
+    stdin_open: true
+    tty: true

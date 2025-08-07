@@ -26,3 +26,4 @@ echo "🔄 啟動 Docker 並設為開機自動啟動..."
 sudo systemctl start docker
 sudo systemctl enable docker
 echo "✅ Docker 服務已啟動"
+sudo reboot
